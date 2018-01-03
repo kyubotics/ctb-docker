@@ -16,7 +16,7 @@ env:
 
 script:
   - export DOCKER_TAG=${TRAVIS_TAG#v}
-  - docker build -t $DOCKER_REPO:$DOCKER_TAG --build-arg GIT_TAG=$TRAVIS_TAG ./docker
+  - docker build -t $DOCKER_REPO:$DOCKER_TAG --build-arg GIT_TAG=$TRAVIS_TAG --no-cache .
 
 after_success:
   - docker tag $DOCKER_REPO:$DOCKER_TAG $DOCKER_REPO:latest
