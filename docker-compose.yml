@@ -1,0 +1,37 @@
+version: "3"
+services:
+  coolq:
+    image: richardchien/cqhttp
+    networks:
+      net:
+        aliases:
+          - coolq
+    expose:
+      - 5700
+    ports:
+      - 9000:9000
+    volumes:
+      - ./data/coolq:/home/user/coolq
+    environment:
+      - VNC_PASSWD=password
+      - COOLQ_ACCOUNT=12345678
+      - CQHTTP_HOST=0.0.0.0
+      - CQHTTP_PORT=5700
+      - CQHTTP_POST_URL=http://ctb:8080
+      - CQHTTP_POST_MESSAGE_FORMAT=array  # important!!
+    restart: always
+  ctb:
+    image: richardchien/ctb
+    networks:
+      net:
+        aliases:
+          - ctb
+    expose:
+      - 8080
+    volumes:
+      - ./conf/ctb/bot_constant.py:/app/bot_constant.py
+      - ./conf/ctb/plugins/conf:/app/plugins/conf
+      - ./data/coolq:/coolq
+    restart: always
+networks:
+  net:
